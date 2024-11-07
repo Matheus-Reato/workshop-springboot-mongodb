@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalInt;
 
 @Service
 public class UserService {
@@ -33,6 +34,18 @@ public class UserService {
     public void delete(String id){
         findById(id);
         repo.deleteById(id);
+    }
+
+    public User update(User obj){
+        User newObj = repo.findById(obj.getId()).get();
+        updateData(newObj, obj);
+
+        return repo.save(newObj);
+    }
+
+    private void updateData(User newObj, User obj){
+        newObj.setName(obj.getName());
+        newObj.setEmail(obj.getEmail());
     }
 
     public User fromDTO(UserDTO objDto){
